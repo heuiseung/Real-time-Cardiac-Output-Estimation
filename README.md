@@ -48,7 +48,7 @@ The **Hybrid Attention-LSTM** is designed to extract both local morphological fe
 
 ## 📈 Results
 ### Performance Metrics
-| Metric | Baseline (LSTM) | **Attention-LSTM (Ours)** |
+| Metric | Baseline (LSTM) | **Attention-LSTM** |
 | :--- | :--- | :--- |
 | **Correlation ($r$)** | $0.7924$ | **$0.8643$** |
 | **Inference Latency** | $1.033\text{ ms}$ | **$1.729\text{ ms}$** |
