@@ -77,10 +77,10 @@ Optimized for high-speed clinical data processing and large-scale model training
 * **RAM**: 128GB DDR5 (High-capacity caching for VitalDB streaming)
 * **GPU**: NVIDIA GeForce RTX 4070
 * **Technical Stack**: 
-    * Python 3.12.10
-    * PyTorch 2.4.1+cu124
-    * CUDA 12.4
-    * cuDNN 9.1.0 (90100)
+    * Python : 3.12.10
+    * PyTorch : 2.4.1+cu124
+    * CUDA : 12.4
+    * cuDNN : 9.1.0 (90100)
 
 ---
 
