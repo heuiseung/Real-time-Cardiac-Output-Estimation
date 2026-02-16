@@ -4,29 +4,53 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12.10-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4.1-EE4C2C?style=flat&logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![CUDA](https://img.shields.io/badge/CUDA-12.4-76B900?style=flat&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 📝 Abstract
-This project presents a deep learning-based approach for real-time, non-invasive estimation of **Cardiac Output (CO)**. Using high-fidelity Arterial Blood Pressure (ABP) waveforms from the **VitalDB** open dataset, we developed a hybrid model that captures complex hemodynamic patterns. By integrating attention mechanisms, the model prioritizes clinically significant pulse morphologies, achieving high correlation and low latency suitable for intraoperative monitoring.
+This project presents a deep learning-based approach for real-time, non-invasive estimation of **Cardiac Output (CO)**. Using high-fidelity Arterial Blood Pressure (ABP) waveforms from the **VitalDB Open Dataset**, we developed a hybrid model that captures complex hemodynamic patterns. By integrating attention mechanisms, the model prioritizes clinically significant pulse morphologies, achieving high correlation and low latency suitable for intraoperative monitoring.
 
 ---
 
 ## 💡 Analysis Framework: ASK to EVOLVE
-Following the **ASK to EVOLVE** framework, this project bridges raw clinical data with actionable AI insights.
+This project follows the **ASK to EVOLVE** analytical framework to bridge raw clinical data with actionable medical AI insights.
 
 * **🔍 ASK**: Can we accurately estimate Cardiac Output (CO) in real-time using only non-invasive ABP waveforms?
-* **👀 LOOK**: Identified data imbalance in high-CO ranges and significant physiological noise in raw clinical recordings.
-* **🔬 INVESTIGATE**: Architected a **Hybrid Attention-LSTM** to prioritize systolic phase morphologies and mitigate high-flow bias via **Weighted Loss**.
+* **👀 LOOK**: Analyzed physiological noise and data scarcity in high-flow states within the VitalDB dataset.
+* **🔬 INVESTIGATE**: Architected a **Hybrid Attention-LSTM** model to capture temporal morphological features of the ABP pulse while mitigating bias via **Weighted Loss**.
 * **📢 VOICE**: Achieved a Pearson Correlation of **$r = 0.8643$** with an ultra-low inference latency of **$1.729\text{ ms}$**.
-* **🚀 EVOLVE**: Proposed lightweight deployment for centralized patient monitoring systems and multi-modal vital sign fusion.
+* **🚀 EVOLVE**: Enabling real-time, continuous hemodynamic monitoring for next-generation patient care systems.
+
+---
+
+## 📊 Dataset Info
+This study utilizes the **VitalDB Open Dataset** sourced from the K-Health Data Platform (KHDP).
+
+* **Data Source**: [VitalDB Open Dataset v1.0.0 (KHDP)](https://khdp.net/database/data-search-detail/658/vitaldb_open/1.0.0)
+* **Input**: Arterial Blood Pressure (ABP) waveforms sampled at 100Hz.
+* **Target**: Continuous Cardiac Output (CO) measurements.
+* **Preprocessing**: Physiological artifact removal and patient-wise splitting for clinical generalizability.
 
 ---
 
 ## 🏗️ Model Architecture
-The model captures both local morphological features and long-term temporal dependencies:
-1.  **Feature Extraction**: 1D-CNN backbone for pulse wave characteristic extraction (SBP, DBP, MAP equivalents).
-2.  **Temporal Modeling**: Bidirectional LSTM (Bi-LSTM) to capture hemodynamic context over time.
-3.  **Attention Mechanism**: Focuses on clinically critical segments like the dicrotic notch for precise CO estimation.
-4.  **Optimization**: Weighted MSE Loss to address the scarcity of high-CO samples.
+The proposed model integrates CNN and LSTM networks with an attention mechanism to extract robust hemodynamic features:
+
+1.  **Feature Extraction**: A 1D-CNN backbone (Residual Blocks) captures essential pulse wave characteristics (SBP, DBP, MAP equivalent features).
+2.  **Temporal Modeling**: A Bidirectional LSTM (Bi-LSTM) layer processes the sequence to understand the hemodynamic context over time.
+3.  **Attention Mechanism**: An integrated Attention layer assigns weights to specific time steps, focusing on the systolic phase and dicrotic notch.
+4.  **Optimization**: Trained with **Weighted MSE Loss** to address the scarcity of high-CO samples.
+
+---
+
+## 🚀 Key Performance Metrics
+Validated on a high-performance workstation (i9-14900K / 128GB RAM).
+
+| Metric | Baseline (LSTM) | **Attention-LSTM (Ours)** |
+| :--- | :--- | :--- |
+| **Correlation ($r$)** | $0.7924$ | **$0.8643$** |
+| **Inference Latency** | $1.033\text{ ms}$ | **$1.729\text{ ms}$** |
+| **Throughput** | $968\text{ cases/sec}$ | **$578\text{ cases/sec}$** |
+| **Clinical Agreement** | Moderate | **Strong (Low Bias)** |
 
 ---
 
@@ -34,7 +58,7 @@ The model captures both local morphological features and long-term temporal depe
 
 ### 1. Model Validation & Clinical Agreement
 ![Performance Metrics](images/Quantitative%20Model%20Performance%20Correlation%20%26%20Clinical%20Agreement.png)
-*Figure 1. (Left) Correlation Plot ($r=0.857$). (Right) Bland-Altman Plot demonstrating strong clinical agreement with minimal bias.*
+*Figure 1. (Left) Correlation Plot showing strong linear alignment ($r=0.857$). (Right) Bland-Altman Plot proving clinical agreement with minimal bias.*
 
 ### 2. Real-time Inference Scenarios
 ![Inference Samples](images/Real-time%20Inference%20Examples%20Waveform%20to%20Cardiac%20Output.png)
@@ -47,20 +71,21 @@ The model captures both local morphological features and long-term temporal depe
 ---
 
 ## 🛠️ Computing Environment
+Optimized for high-speed clinical data processing and large-scale model training.
+
 * **CPU**: Intel Core i9-14900K (24 Cores / 32 Threads)
-* **RAM**: 128GB DDR5 (Optimized for high-speed clinical data processing)
+* **RAM**: 128GB DDR5 (High-capacity caching for VitalDB streaming)
 * **GPU**: NVIDIA GeForce RTX 4070
-* **Technical Stack**: Python 3.12.10 / PyTorch 2.4.1+cu124 / CUDA 12.4 / cuDNN 9.1.0 (90100)
+* **Technical Stack**: 
+    * Python 3.12.10
+    * PyTorch 2.4.1+cu124
+    * CUDA 12.4
+    * cuDNN 9.1.0 (90100)
 
 ---
 
 ## 📁 Repository Structure
-* **`Real-time cardiac output estimation.ipynb`**: Comprehensive research workflow covering data engineering, model training, and clinical performance evaluation.
-* **`images/`**: High-resolution performance visualizations and technical analysis plots.
-* **`README.md`**: Project documentation and analysis summary.
-
----
-
-## 📜 Acknowledgement
-Data provided by **VitalDB**, an open dataset for clinical research.  
-*Reference: Lee, HC., Jung, CW. VitalDB, a high-fidelity multi-parameter vital signs database in surgical patients. Sci Data 5, 180184 (2018).*
+```bash
+├── Real-time cardiac output estimation.ipynb   # Comprehensive research workflow
+├── images/                                     # High-resolution performance visualizations & plots
+└── README.md                                   # Project documentation
